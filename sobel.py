@@ -75,7 +75,7 @@ def compute_Sobel ():
 
 
 
-img = cv2.imread("test_im_2.png")
+img = cv2.imread("test_im_4.png")
 output_array = np.zeros((1080, 1920, 3))
 
 ram1 = np.zeros(1920)
