@@ -78,6 +78,9 @@ signal RAM_6_OUT       :  std_logic_vector(7 downto 0);
 signal RAM_7_OUT       :  std_logic_vector(7 downto 0);
 signal RAM_8_OUT       :  std_logic_vector(7 downto 0);
 
+
+signal start_count : std_logic;
+signal count : integer := 0;
 begin
 
 
@@ -92,15 +95,27 @@ end process;
 test_proc : process begin
 aresetp <= '1';
 wait for CLK_PERIOD * 3;
+wait for CLK_PERIOD/2;
 aresetp <= '0';
 wait for CLK_PERIOD;
-
+start_count <= '1';
 
 wait for CLK_PERIOD*2073700;
 assert false report "Simulation Complete" severity failure;
 
 end process;
 
+pixelIn <= std_logic_vector(to_unsigned(count, 8));
+
+counter_proc: process (clk) begin
+   if (aresetp = '1') then
+      count <= 0;
+   elsif (rising_edge(clk)) then
+      if (start_count = '1') then
+         count <= count + 1;
+      end if;
+   end if;
+end process;
 
 
 --DUT Instance

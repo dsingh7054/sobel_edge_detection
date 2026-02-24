@@ -85,14 +85,18 @@ signal ena          : STD_LOGIC;
 signal clkb         : STD_LOGIC;
 signal enb          : STD_LOGIC;
 signal wea          : we_t := (others => '0');
-signal waddr        : addr_t := (others => (others => '0'));
-signal dataIn       : data_t := (others => (others => '0'));
+signal waddr        : std_logic_vector(10 downto 0);
+-- signal waddr        : addr_t := (others => (others => '0'));
+signal dataIn       : std_logic_vector(7 downto 0);
+-- signal dataIn       : data_t := (others => (others => '0'));
 signal raddr        : addr_t := (others => (others => '0'));
 signal dataOut      : data_t := (others => (others => '0'));
 
 signal horz_idx     : integer := 0;
 signal vert_idx     : integer := 0;
 signal line_track   : integer := 0;
+
+signal pixel_Count  : integer := 0;
 
 
 begin
@@ -105,8 +109,8 @@ begin
     clka  => clk,      
     ena => '1',
     wea => wea(i), 
-    addra => waddr(i),
-    dina => dataIn(i),
+    addra => waddr,
+    dina => dataIn,
     clkb => clk,
     enb => '1',
     addrb => raddr(i),
@@ -145,25 +149,68 @@ line_track_proc : process (clk, aresetp) begin
     end if;
 end process;
 
-
+--This is the waddr for the RAM_ARRAY, increments every three pixels and overflows when the last three pixels of a line are encountered. 
 waddr_proc : process (clk, aresetp) begin
     if (aresetp = '1') then
-      waddr <= 0;
+      waddr <= (others => '0');
+      pixel_Count <= 0;
     elsif (rising_edge(clk)) then
-
-
+      if (unsigned(waddr) = 639 and pixel_Count = 3) then
+        waddr <= (others => '0');
+        pixel_Count <= 1;
+      else
+        if (pixel_count = 3) then
+          waddr <= std_logic_vector(unsigned(waddr) + 1);
+          pixel_count <= 1;
+        else
+            pixel_count <= pixel_count + 1;
+        end if;
+      end if;
     end if;
 end process;
 
 pixel_ram_arbiter_proc : process (clk, aresetp) begin
     if (aresetp = '1') then
-        
+        wea <= (others => '0');
     elsif (rising_edge(clk)) then
-    
-    
-    
+      dataIn <= pixelIn;
+      
+      for i in 0 to 8 loop --always initialize to 0
+          wea(i) <= '0';
+      end loop;
+      
+      if (vert_idx = line_track) then
+        if (horz_idx >= 0 and horz_idx < 1920) then
+          wea(0) <= '1';
+        end if;
+        if (horz_idx >= 1 and horz_idx < 1920) then
+          wea(1) <= '1';
+        end if;
+        if (horz_idx >= 2 and horz_idx < 1920) then
+          wea(2) <= '1';
+        end if;
+      elsif (vert_idx = (line_track + 1)) then
+        if (horz_idx >= 0 and horz_idx < 1920) then
+          wea(3) <= '1';
+        end if;
+        if (horz_idx >= 1 and horz_idx < 1920) then
+          wea(4) <= '1';
+        end if;
+        if (horz_idx >= 2 and horz_idx < 1920) then
+          wea(5) <= '1';
+        end if;
+      elsif (vert_idx = (line_track + 2)) then
+        if (horz_idx >= 0 and horz_idx < 1920) then
+          wea(6) <= '1';
+        end if;
+        if (horz_idx >= 1 and horz_idx < 1920) then
+          wea(7) <= '1';
+        end if;
+        if (horz_idx >= 2 and horz_idx < 1920) then
+          wea(8) <= '1';
+        end if;
+      end if;
     end if;
 end process;
-
 
 end Behavioral;
