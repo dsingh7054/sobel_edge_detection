@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:141.0) Gecko/20100101 Firefox/141.0" version="29.3.3">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0" version="29.6.0" pages="2">
   <diagram name="Top Level Diagram" id="OpqceY6NuES_atMccXwL">
     <mxGraphModel dx="2633" dy="1034" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -323,6 +323,45 @@
           <mxGeometry relative="1" x="0.2778" y="-2" as="geometry">
             <mxPoint x="-13" y="-12" as="offset" />
           </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="2dUYT_5_WfziQ0wLw2oY" name="RAM ARBITOR">
+    <mxGraphModel dx="1610" dy="827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="FqdsWnstCRDVHWf9gwu5-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;MUX&lt;/div&gt;&lt;div&gt;(Determines the matrix to be fed into the sobel compute function)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="690" width="120" x="200" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="FqdsWnstCRDVHWf9gwu5-2" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="&lt;div&gt;vsync, hsync recovery block&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;(Since I have to wait a large amount of cycles to store enough pixels in order to compute sobel, I need to do a recovery of the hsync, vsync and vde signals)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="210" width="210" x="200" y="820" as="geometry" />
+        </mxCell>
+        <mxCell id="FqdsWnstCRDVHWf9gwu5-3" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="120" y="640" as="sourcePoint" />
+            <mxPoint x="200" y="640" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FqdsWnstCRDVHWf9gwu5-4" connectable="0" parent="FqdsWnstCRDVHWf9gwu5-3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="start_compute" vertex="1">
+          <mxGeometry relative="1" x="-0.125" y="-1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FqdsWnstCRDVHWf9gwu5-5" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="120" y="960" as="sourcePoint" />
+            <mxPoint x="200" y="960" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FqdsWnstCRDVHWf9gwu5-6" connectable="0" parent="FqdsWnstCRDVHWf9gwu5-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="start_compute" vertex="1">
+          <mxGeometry relative="1" x="-0.125" y="-1" as="geometry">
+            <mxPoint y="-11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FqdsWnstCRDVHWf9gwu5-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="This block is essentially a series of counters. The count limits are defined by the 1920X1080 video timings found in the bookmarked webpage" vertex="1">
+          <mxGeometry height="80" width="280" x="425" y="885" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
