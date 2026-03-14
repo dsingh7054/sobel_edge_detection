@@ -94,6 +94,7 @@ end process;
 
 test_proc : process begin
 aresetp <= '1';
+validIn <= '1';
 wait for CLK_PERIOD * 3;
 wait for CLK_PERIOD/2;
 aresetp <= '0';

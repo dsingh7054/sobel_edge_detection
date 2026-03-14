@@ -123,13 +123,15 @@ pixel_counter_proc : process(clk, aresetp) begin
         horz_idx <= 0;
         vert_idx <= 0;
     elsif (rising_edge(clk)) then
-        horz_idx <= horz_idx + 1;
-        if (horz_idx = horz_dim-1) then
-          horz_idx <= 0;
-          if (vert_idx = vert_dim - 1) then
-            vert_idx <= 0;
-          else
-            vert_idx <= vert_idx + 1;
+        if (validIn = '1') then
+          horz_idx <= horz_idx + 1;
+          if (horz_idx = horz_dim-1) then
+            horz_idx <= 0;
+            if (vert_idx = vert_dim - 1) then
+              vert_idx <= 0;
+            else
+              vert_idx <= vert_idx + 1;
+            end if;
           end if;
         end if;
     end if;
@@ -141,10 +143,12 @@ line_track_proc : process (clk, aresetp) begin
     if (aresetp = '1') then
         line_track <= 0;
     elsif (rising_edge(clk)) then
-      if (vert_idx = (line_track+2) and horz_idx = 1919) then
-        line_track <=  line_track + 3;
-      elsif (line_track = 1080 and horz_idx = 1919) then
-        line_track <= 0;
+      if (validIn = '1') then
+        if (vert_idx = (line_track+2) and horz_idx = 1919) then
+          line_track <=  line_track + 3;
+        elsif (line_track = 1080 and horz_idx = 1919) then
+          line_track <= 0;
+        end if;
       end if;
     end if;
 end process;
@@ -155,15 +159,17 @@ waddr_proc : process (clk, aresetp) begin
       waddr <= (others => '0');
       pixel_Count <= 0;
     elsif (rising_edge(clk)) then
-      if (unsigned(waddr) = 639 and pixel_Count = 3) then
-        waddr <= (others => '0');
-        pixel_Count <= 1;
-      else
-        if (pixel_count = 3) then
-          waddr <= std_logic_vector(unsigned(waddr) + 1);
-          pixel_count <= 1;
+      if (validIn = '1') then
+        if (unsigned(waddr) = 639 and pixel_Count = 3) then
+          waddr <= (others => '0');
+          pixel_Count <= 1;
         else
-            pixel_count <= pixel_count + 1;
+          if (pixel_count = 3) then
+            waddr <= std_logic_vector(unsigned(waddr) + 1);
+            pixel_count <= 1;
+          else
+              pixel_count <= pixel_count + 1;
+          end if;
         end if;
       end if;
     end if;
@@ -173,41 +179,42 @@ pixel_ram_arbiter_proc : process (clk, aresetp) begin
     if (aresetp = '1') then
         wea <= (others => '0');
     elsif (rising_edge(clk)) then
-      dataIn <= pixelIn;
-      
       for i in 0 to 8 loop --always initialize to 0
           wea(i) <= '0';
       end loop;
-      
-      if (vert_idx = line_track) then
-        if (horz_idx >= 0 and horz_idx < 1920) then
-          wea(0) <= '1';
-        end if;
-        if (horz_idx >= 1 and horz_idx < 1920) then
-          wea(1) <= '1';
-        end if;
-        if (horz_idx >= 2 and horz_idx < 1920) then
-          wea(2) <= '1';
-        end if;
-      elsif (vert_idx = (line_track + 1)) then
-        if (horz_idx >= 0 and horz_idx < 1920) then
-          wea(3) <= '1';
-        end if;
-        if (horz_idx >= 1 and horz_idx < 1920) then
-          wea(4) <= '1';
-        end if;
-        if (horz_idx >= 2 and horz_idx < 1920) then
-          wea(5) <= '1';
-        end if;
-      elsif (vert_idx = (line_track + 2)) then
-        if (horz_idx >= 0 and horz_idx < 1920) then
-          wea(6) <= '1';
-        end if;
-        if (horz_idx >= 1 and horz_idx < 1920) then
-          wea(7) <= '1';
-        end if;
-        if (horz_idx >= 2 and horz_idx < 1920) then
-          wea(8) <= '1';
+        
+      if (validIn = '1') then
+        dataIn <= pixelIn;
+        if (vert_idx = line_track) then
+          if (horz_idx >= 0 and horz_idx < 1920) then
+            wea(0) <= '1';
+          end if;
+          if (horz_idx >= 1 and horz_idx < 1920) then
+            wea(1) <= '1';
+          end if;
+          if (horz_idx >= 2 and horz_idx < 1920) then
+            wea(2) <= '1';
+          end if;
+        elsif (vert_idx = (line_track + 1)) then
+          if (horz_idx >= 0 and horz_idx < 1920) then
+            wea(3) <= '1';
+          end if;
+          if (horz_idx >= 1 and horz_idx < 1920) then
+            wea(4) <= '1';
+          end if;
+          if (horz_idx >= 2 and horz_idx < 1920) then
+            wea(5) <= '1';
+          end if;
+        elsif (vert_idx = (line_track + 2)) then
+          if (horz_idx >= 0 and horz_idx < 1920) then
+            wea(6) <= '1';
+          end if;
+          if (horz_idx >= 1 and horz_idx < 1920) then
+            wea(7) <= '1';
+          end if;
+          if (horz_idx >= 2 and horz_idx < 1920) then
+            wea(8) <= '1';
+          end if;
         end if;
       end if;
     end if;
