@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0" version="29.6.0" pages="2">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:147.0) Gecko/20100101 Firefox/147.0" version="29.6.1" pages="2">
   <diagram name="Top Level Diagram" id="OpqceY6NuES_atMccXwL">
     <mxGraphModel dx="2633" dy="1034" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -328,7 +328,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="2dUYT_5_WfziQ0wLw2oY" name="RAM ARBITOR">
-    <mxGraphModel dx="1610" dy="827" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1110" dy="570" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -362,6 +362,77 @@
         </mxCell>
         <mxCell id="FqdsWnstCRDVHWf9gwu5-7" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="This block is essentially a series of counters. The count limits are defined by the 1920X1080 video timings found in the bookmarked webpage" vertex="1">
           <mxGeometry height="80" width="280" x="425" y="885" as="geometry" />
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="raddr_gen" vertex="1">
+          <mxGeometry height="60" width="120" x="770" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-2" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="710" y="230" as="sourcePoint" />
+            <mxPoint x="770" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-3" connectable="0" parent="gHrPkkS0a01WBjTTUHN5-2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="vDe_in = &#39;1&#39;" vertex="1">
+          <mxGeometry relative="1" x="-0.2222" y="-2" as="geometry">
+            <mxPoint x="-18" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-4" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <Array as="points">
+              <mxPoint x="950" y="230" />
+              <mxPoint x="950" y="80" />
+            </Array>
+            <mxPoint x="890" y="230" as="sourcePoint" />
+            <mxPoint x="690" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-5" connectable="0" parent="gHrPkkS0a01WBjTTUHN5-4" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;raddr0/1/2 goes in&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.0982" y="-2" as="geometry">
+            <mxPoint x="-62" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-6" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="690" y="370" as="sourcePoint" />
+            <mxPoint x="950" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-9" connectable="0" parent="gHrPkkS0a01WBjTTUHN5-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="rdata comes out (around 2 cycles later)" vertex="1">
+          <mxGeometry relative="1" x="-0.1517" y="-3" as="geometry">
+            <mxPoint x="39" y="22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;direction=south;" value="ramArray" vertex="1">
+          <mxGeometry height="330" width="150" x="520" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-10" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="690" y="350" as="sourcePoint" />
+            <mxPoint x="950" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-11" connectable="0" parent="gHrPkkS0a01WBjTTUHN5-10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="rdata is valid (around 2 cycles later)" vertex="1">
+          <mxGeometry relative="1" x="0.0897" y="-4" as="geometry">
+            <mxPoint x="-1" y="-24" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-12" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="MUX" vertex="1">
+          <mxGeometry height="80" width="80" x="960" y="315" as="geometry" />
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-13" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="gHrPkkS0a01WBjTTUHN5-12" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="1000" y="260" as="sourcePoint" />
+            <mxPoint x="1050" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-14" connectable="0" parent="gHrPkkS0a01WBjTTUHN5-13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="select using horizontal and vertical index tracking" vertex="1">
+          <mxGeometry relative="1" x="-0.0842" y="-3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gHrPkkS0a01WBjTTUHN5-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="&lt;div align=&quot;left&quot;&gt;What does this mean?&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;Raddr should begin incrementing once the systems says vDe_in is present, and pause incrementing once the system says we are no longer in active.&amp;nbsp;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;The actual index/pixel counting should only occur when the read data is sent into the arbiter. This means that an internal start condition should exist to begin pixel incrementing. This internal start condition should be a pipelined version of the vDe_in signal (approx 2 cycles).&amp;nbsp;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;Keep in mind the hsync and vsync signals should also be pipelined according to this delay, and they should be sent into the compute module at the same time.&amp;nbsp;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;To do:&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;-Modify the ramArbitor to utilize an internal, pipelined version of the vDe_in signal to start horizontal/vertical idx tracking (probably 2 cycles)&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;-Create a MUX module to arbitrate between the a,b,c.... signals based on the horizontal and vertical indicies.&amp;nbsp;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;-pipeline the vDein, hsyc and vsync signals to send out to compute module.&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="260" width="410" x="830" y="520" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

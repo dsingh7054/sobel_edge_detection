@@ -60,7 +60,7 @@ begin
 
 vDe_out <= vsync_active_sig AND hsync_active_sig;
 
-hsync_proc : process (clk) begin
+hsync_proc : process (clk, reset) begin
     if (reset = '1') then
         hsync_state <= IDLE;
         hsync_cycle_counter <= 0;
@@ -171,7 +171,7 @@ hsync_proc : process (clk) begin
 end process;
 
 
-vsyn_incr_controller : process (clk) begin
+vsyn_incr_controller : process (clk, reset) begin
     if (reset = '1') then
         increment_vsync <= '0';
     elsif (rising_edge(clk)) then
