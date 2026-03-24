@@ -49,7 +49,13 @@ entity ramArray is
     RAM_5_OUT       : out std_logic_vector(7 downto 0);
     RAM_6_OUT       : out std_logic_vector(7 downto 0);
     RAM_7_OUT       : out std_logic_vector(7 downto 0);
-    RAM_8_OUT       : out std_logic_vector(7 downto 0)
+    RAM_8_OUT       : out std_logic_vector(7 downto 0);
+
+    raddr0          : in std_logic_vector(10 downto 0);
+    raddr1          : in std_logic_vector(10 downto 0);
+    raddr2          : in std_logic_vector(10 downto 0);
+
+    start_gen       : out std_logic
  );
 end ramArray;
 
@@ -76,7 +82,7 @@ END COMPONENT;
 
 
 --Signals
-type addr_t is array (0 to 8) of std_logic_vector(10 downto 0);
+type addr_t is array (0 to 2) of std_logic_vector(10 downto 0);
 type we_t   is array (0 to 8) of std_logic;
 type data_t is array (0 to 8) of std_logic_vector(7 downto 0);
 
@@ -97,9 +103,40 @@ signal vert_idx     : integer := 0;
 signal line_track   : integer := 0;
 
 signal pixel_Count  : integer := 0;
+signal start_gen_sig : std_logic;
 
 
 begin
+
+--map raddr
+raddr(0)<= raddr0;
+raddr(1)<= raddr1;
+raddr(2)<= raddr2;
+
+--map RAM_OUT
+RAM_0_OUT <= dataOut(0);
+RAM_1_OUT <= dataOut(1);
+RAM_2_OUT <= dataOut(2);
+RAM_3_OUT <= dataOut(3);
+RAM_4_OUT <= dataOut(4);
+RAM_5_OUT <= dataOut(5);
+RAM_6_OUT <= dataOut(6);
+RAM_7_OUT <= dataOut(7);
+RAM_8_OUT <= dataOut(8);
+
+
+start_gen <= start_gen_sig;
+
+--Start Gen Latch
+start_gen_proc : process (clk, aresetp) begin
+  if (aresetp = '1') then
+    start_gen_sig <= '0';
+  elsif (rising_edge(clk)) then
+    if (start_gen_sig = '0' and vert_idx = 2 and horz_idx = 3) then
+      start_gen_sig <= '1'; 
+    end if;
+  end if;
+end process;
 
 --Component Instantiation
 sdpram_generate : for i in 0 to 8 generate 
@@ -113,7 +150,7 @@ begin
     dina => dataIn,
     clkb => clk,
     enb => '1',
-    addrb => raddr(i),
+    addrb => raddr(i mod 3),
     doutb => dataOut(i)
   );
 end generate;

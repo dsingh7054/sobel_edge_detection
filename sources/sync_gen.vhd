@@ -35,7 +35,7 @@ use work.sync_gen_pkg.all;
 entity sync_gen is
     Port ( 
         clk             : in STD_LOGIC;
-        reset           : in STD_LOGIC;
+        aresetp         : in STD_LOGIC;
         start_gen       : in STD_LOGIC;
         hsync           : out STD_LOGIC;
         vsync           : out STD_LOGIC;
@@ -60,8 +60,8 @@ begin
 
 vDe_out <= vsync_active_sig AND hsync_active_sig;
 
-hsync_proc : process (clk, reset) begin
-    if (reset = '1') then
+hsync_proc : process (clk, aresetp) begin
+    if (aresetp = '1') then
         hsync_state <= IDLE;
         hsync_cycle_counter <= 0;
         hsync_active_sig <= '0';
@@ -171,8 +171,8 @@ hsync_proc : process (clk, reset) begin
 end process;
 
 
-vsyn_incr_controller : process (clk, reset) begin
-    if (reset = '1') then
+vsyn_incr_controller : process (clk, aresetp) begin
+    if (aresetp = '1') then
         increment_vsync <= '0';
     elsif (rising_edge(clk)) then
         increment_vsync <= '0';

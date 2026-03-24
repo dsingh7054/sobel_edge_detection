@@ -45,7 +45,7 @@ entity rgb2gray is
            vSync_in   : in STD_LOGIC;
            vDe_in     : in STD_LOGIC;     
            
-           gray       : out std_logic_vector(23 downto 0);
+           gray       : out std_logic_vector(7 downto 0);
            hSync_out  : out STD_LOGIC;
            vSync_out  : out STD_LOGIC;
            vDe_out    : out STD_LOGIC 
@@ -79,7 +79,7 @@ begin
 
 --continuous assignments
 sum <= std_logic_vector(unsigned(red_out) + unsigned(blue_out) + unsigned(green_out));
-gray <= sum(27 downto 20) & sum(27 downto 20) & sum(27 downto 20); --only shove out whole 
+gray <= sum(27 downto 20); --only shove out whole 
 hSync_out   <= hSync_reg(2);   
 vSync_out   <= vSync_reg(2); 
 vDe_out     <= vDe_reg(2);
