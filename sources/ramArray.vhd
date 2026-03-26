@@ -54,6 +54,12 @@ entity ramArray is
     raddr0          : in std_logic_vector(10 downto 0);
     raddr1          : in std_logic_vector(10 downto 0);
     raddr2          : in std_logic_vector(10 downto 0);
+    
+    
+    
+    waddr_out      : out std_logic_vector(10 downto 0);
+    wdata_out      : out std_logic_vector(7 downto 0);
+    wen_out        : out std_logic;
 
     start_gen       : out std_logic
  );
@@ -126,6 +132,11 @@ RAM_8_OUT <= dataOut(8);
 
 
 start_gen <= start_gen_sig;
+
+    waddr_out      <= waddr;
+    wdata_out      <= dataIn;
+    wen_out        <= wea(0);
+
 
 --Start Gen Latch
 start_gen_proc : process (clk, aresetp) begin
