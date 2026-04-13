@@ -63,15 +63,21 @@ alias i : std_logic_vector(7 downto 0) is ramVector_in(7 downto 0);
 begin
 
 sobel_compute_proc : process (clk, aresetp) 
-    variable rgb_vect_int : std_logic_vector(7 downto 0) := (others => '0');
+    variable rgb_vect_int : std_logic_vector(15 downto 0) := (others => '0');
 begin
     
     if (aresetp = '1') then
         rgbVector <= (others => '0');
     elsif (rising_edge(clk)) then
         if (vDe_in = '1') then
-            rgb_vect_int := std_logic_vector(abs((signed(a) + signed(b(7 downto 2) & "00") + signed(c)) - (signed(g) + signed(h(7 downto 2) & "00") + signed(i))) + abs((signed(c) + signed(f(7 downto 2) & "00") + signed(i)) - (signed(a) + signed(f(7 downto 2) & "00") + signed(g))));
-            rgbVector <= rgb_vect_int & rgb_vect_int & rgb_vect_int;
+            rgb_vect_int := std_logic_vector(abs((resize(signed(a), 16) + resize(signed(b(7 downto 2) & "00"), 16) + resize(signed(c), 16)) - (resize(signed(g), 16) + resize(signed(h(7 downto 2) & "00"), 16) + resize(signed(i), 16))) + abs((resize(signed(c), 16) + resize(signed(f(7 downto 2) & "00"), 16) + resize(signed(i), 16)) - (resize(signed(a), 16) + resize(signed(f(7 downto 2) & "00"), 16) + resize(signed(g), 16))));
+            
+            --overflow detection
+            if (unsigned(rgb_vect_int(15 downto 8)) > 0) then
+                rgbVector <= std_logic_vector(to_unsigned(255, 8)) & std_logic_vector(to_unsigned(255, 8)) & std_logic_vector(to_unsigned(255, 8));    
+            else
+                rgbVector <= rgb_vect_int(7 downto 0) & rgb_vect_int(7 downto 0) & rgb_vect_int(7 downto 0);
+            end if;
         end if;
     end if;
 end process;

@@ -55,7 +55,7 @@ entity ramArray is
     raddr1          : in std_logic_vector(10 downto 0);
     raddr2          : in std_logic_vector(10 downto 0);
     
-    
+    vsyncIn         : in std_logic;
     
     waddr_out      : out std_logic_vector(10 downto 0);
     wdata_out      : out std_logic_vector(7 downto 0);
@@ -111,6 +111,9 @@ signal line_track   : integer := 0;
 signal pixel_Count  : integer := 0;
 signal start_gen_sig : std_logic;
 
+signal vsyncIn0       : std_logic;
+signal valid_internal : std_logic;
+
 
 begin
 
@@ -136,6 +139,28 @@ start_gen <= start_gen_sig;
     waddr_out      <= waddr;
     wdata_out      <= dataIn;
     wen_out        <= wea(0);
+
+
+
+--VSync reg proc
+vsync_reg_proc : process (clk, aresetp) begin
+  if (aresetp = '1') then
+    vsyncIn0 <= '0';
+  elsif (rising_edge(clk)) then
+    vsyncIn0 <= vsyncIn;
+  end if;
+end process;
+  
+--falling edge detect for vsync signal
+falling_edge_detect : process (clk, aresetp) begin
+  if (aresetp = '1') then
+    valid_internal <= '0';
+  elsif (rising_edge(clk)) then
+    if (vsyncIn0 = '1' and vsyncIn = '0') then
+      valid_internal <= '1';
+    end if;
+  end if;
+end process;
 
 
 --Start Gen Latch
@@ -171,7 +196,7 @@ pixel_counter_proc : process(clk, aresetp) begin
         horz_idx <= 0;
         vert_idx <= 0;
     elsif (rising_edge(clk)) then
-        if (validIn = '1') then
+        if (validIn = '1' and valid_internal = '1') then
           horz_idx <= horz_idx + 1;
           if (horz_idx = horz_dim-1) then
             horz_idx <= 0;
@@ -191,7 +216,7 @@ line_track_proc : process (clk, aresetp) begin
     if (aresetp = '1') then
         line_track <= 0;
     elsif (rising_edge(clk)) then
-      if (validIn = '1') then
+      if (validIn = '1' and valid_internal = '1') then
         if (vert_idx = (line_track+2) and horz_idx = 1919) then
           line_track <=  line_track + 3;
         elsif (line_track = 1080 and horz_idx = 1919) then
@@ -207,7 +232,7 @@ waddr_proc : process (clk, aresetp) begin
       waddr <= (others => '0');
       pixel_Count <= 0;
     elsif (rising_edge(clk)) then
-      if (validIn = '1') then
+      if (validIn = '1' and valid_internal = '1') then
         if (unsigned(waddr) = 639 and pixel_Count = 3) then
           waddr <= (others => '0');
           pixel_Count <= 1;
@@ -231,7 +256,7 @@ pixel_ram_arbiter_proc : process (clk, aresetp) begin
           wea(i) <= '0';
       end loop;
         
-      if (validIn = '1') then
+      if (validIn = '1' and valid_internal = '1') then
         dataIn <= pixelIn;
         if (vert_idx = line_track) then
           if (horz_idx >= 0 and horz_idx < 1920) then
