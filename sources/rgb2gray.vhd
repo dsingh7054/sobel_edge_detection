@@ -74,11 +74,13 @@ signal hSync_reg : std_logic_vector(2 downto 0);
 signal vSync_reg : std_logic_vector(2 downto 0);  
 signal vDe_reg   : std_logic_vector(2 downto 0);  
 
+signal sum_int0 : std_logic_vector(9 downto 0);
+signal sum_int1 : std_logic_vector(9 downto 0);
 
 begin
 
 --continuous assignments
-sum <= std_logic_vector(unsigned(red_out) + unsigned(blue_out) + unsigned(green_out));
+-- sum <= std_logic_vector(unsigned(red_out) + unsigned(blue_out) + unsigned(green_out));
 gray <= sum(27 downto 20); --only shove out whole 
 hSync_out   <= hSync_reg(2);   
 vSync_out   <= vSync_reg(2); 
@@ -91,6 +93,23 @@ blue_in <= RBG_in(15 downto 8) & b"0000000000";
 green_in <= RBG_in(7 downto 0) & b"0000000000"; 
 
 --aresetp <= not aresetn;
+
+
+alternate_rgb_proc : process (pixelClkIn, aresetp) begin
+    if (aresetp = '1') then
+        sum <= (others => '0');
+    elsif (rising_edge(pixelClkIn)) then
+        sum_int0 <= std_logic_vector(unsigned(b"0000" & RBG_in(23 downto 18)) + unsigned(b"0000000" & RBG_in(23 downto 21)) + unsigned(b"000" & RBG_in(15 downto 9)) + unsigned(b"000000" & RBG_in(15 downto 12)) + unsigned(b"000000" & RBG_in(7 downto 4)) + unsigned(b"000000" & RBG_in(7 downto 5)));
+        sum_int1 <= sum_int0;
+
+        if (sum_int1(9 downto 8) = b"00") then
+            sum(27 downto 20) <= sum_int1(7 downto 0);
+        else
+            sum(27 downto 20) <= std_logic_vector(to_unsigned(255, 8));
+        end if;
+    end if;
+end process;
+
 
 --procedural
 pipeline_proc: process (pixelClkIn, aresetp) begin

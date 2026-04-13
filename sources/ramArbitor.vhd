@@ -82,10 +82,11 @@ signal vDe_in_reg0 : std_logic;
 signal vDe_in_reg1 : std_logic;
 signal vDe_in_reg2 : std_logic;
 signal vDe_in_reg3 : std_logic;
+signal vDe_in_reg4 : std_logic;
 
 
-signal hsync_vec   : std_logic_vector(3 downto 0);
-signal vsync_vec   : std_logic_vector(3 downto 0);
+signal hsync_vec   : std_logic_vector(4 downto 0);
+signal vsync_vec   : std_logic_vector(4 downto 0);
 
 signal raddr0_out      :      std_logic_vector (10 downto 0);
 signal raddr1_out      :      std_logic_vector (10 downto 0);
@@ -100,9 +101,9 @@ raddr1_out_vec <= raddr1_out;
 raddr2_out_vec <= raddr2_out;
 
 
-vDe_out  <= vDe_in_reg3;
-hsync_out <= hsync_vec(2);
-vsync_out <= vsync_vec(2);
+vDe_out  <= vDe_in_reg4;
+hsync_out <= hsync_vec(4);
+vsync_out <= vsync_vec(4);
 
 --maintin positioning of pixel
 pixel_tracker : process (clk, aresetp) begin
@@ -110,7 +111,7 @@ pixel_tracker : process (clk, aresetp) begin
     horz_idx <= 0;
     vert_idx <= 0;
   elsif (rising_edge(clk)) then
-    if (vDe_in_reg2  = '1') then --if in active region
+    if (vDe_in_reg3  = '1') then --if in active region
       if (horz_idx < horz_dim-1) then
         horz_idx <= horz_idx + 1;
       else
@@ -154,16 +155,19 @@ raddr_pipeline_proc : process (clk) begin
     vDe_in_reg1 <= vDe_in_reg0;
     vDe_in_reg2 <= vDe_in_reg1;
     vDe_in_reg3 <= vDe_in_reg2;
+    vDe_in_reg4 <= vDe_in_reg3;
 
     hsync_vec(0) <= hsync_in;
     hsync_vec(1) <= hsync_vec(0);
     hsync_vec(2) <= hsync_vec(1);
     hsync_vec(3) <= hsync_vec(2);
+    hsync_vec(4) <= hsync_vec(3);
 
     vsync_vec(0) <= vsync_in;
     vsync_vec(1) <= vsync_vec(0);
     vsync_vec(2) <= vsync_vec(1);
-    vsync_vec(3) <= vsync_vec(2);    
+    vsync_vec(3) <= vsync_vec(2);
+    vsync_vec(4) <= vsync_vec(3);    
         
   end if;
 end process;
