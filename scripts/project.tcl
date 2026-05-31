@@ -84,18 +84,18 @@ proc checkRequiredFiles { origin_dir} {
     }
   }
 
-  set paths [list \
- "[file normalize "$origin_dir/../../axi_slave_core/source/example_project/Zybo-Z7-10-HDMI-hw.xpr/zybo-10-hw/zybo-10-hw.ipdefs/repo"]"]"\
-  ]
-  foreach ipath $paths {
-    if { ![file isdirectory $ipath] } {
-      puts " Could not access $ipath "
-      set status false
-    }
-  }
+#   set paths [list \
+#  "[file normalize "$origin_dir/../../axi_slave_core/source/example_project/Zybo-Z7-10-HDMI-hw.xpr/zybo-10-hw/zybo-10-hw.ipdefs/repo"]"]"\
+#   ]
+#   foreach ipath $paths {
+#     if { ![file isdirectory $ipath] } {
+#       puts " Could not access $ipath "
+#       set status false
+#     }
+#   }
 
-  return $status
-}
+#   return $status
+# }
 # Set the reference directory for source file relative paths (by default the value is script directory path)
 set origin_dir "."
 
@@ -225,7 +225,8 @@ if {[string equal [get_filesets -quiet sources_1] ""]} {
 # Set IP repository paths
 set obj [get_filesets sources_1]
 if { $obj != {} } {
-   set_property "ip_repo_paths" "[file normalize "$origin_dir/../example_project/Zybo-Z7-10-HDMI-hw.xpr/zybo-10-hw/zybo-10-hw.ipdefs/repo"]" $obj
+  #  set_property "ip_repo_paths" "[file normalize "$origin_dir/../example_project/Zybo-Z7-10-HDMI-hw.xpr/zybo-10-hw/zybo-10-hw.ipdefs/repo"]" $obj
+  set_property "ip_repo_paths" "[file normalize "$origin_dir/../repo"]" $obj
 
    # Rebuild user ip_repo's index before adding any source files
    update_ip_catalog -rebuild
