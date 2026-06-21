@@ -4,7 +4,7 @@
     "xci_name": "sdpram_8bit_x_1920",
     "component_reference": "xilinx.com:ip:blk_mem_gen:8.4",
     "ip_revision": "12",
-    "gen_directory": "../../../../zybo-10-hw.gen/sources_1/ip/sdpram_8bit_x_1920",
+    "gen_directory": "../../ip/sdpram_8bit_x_1920",
     "parameters": {
       "component_parameters": {
         "Component_Name": [ { "value": "sdpram_8bit_x_1920", "resolve_type": "user", "usage": "all" } ],
@@ -174,7 +174,7 @@
         "IPCONTEXT": [ { "value": "IP_Flow" } ],
         "IPREVISION": [ { "value": "12" } ],
         "MANAGED": [ { "value": "TRUE" } ],
-        "OUTPUTDIR": [ { "value": "../../../../zybo-10-hw.gen/sources_1/ip/sdpram_8bit_x_1920" } ],
+        "OUTPUTDIR": [ { "value": "../../ip/sdpram_8bit_x_1920" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
         "SHAREDDIR": [ { "value": "." } ],
         "SWVERSION": [ { "value": "2025.2" } ],
@@ -278,5 +278,5 @@
       }
     }
   },
-  "checksum": "98708575"
+  "checksum": "28649b4c"
 }
